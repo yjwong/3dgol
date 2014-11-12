@@ -1,0 +1,10 @@
+# Build directory
+build/
+
+# Vim swap files
+*.swp
+*.swo
+
+# Vim plugin: YouCompleteMe
+.ycm_extra_conf.py*
+
