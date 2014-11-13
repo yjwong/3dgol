@@ -8,6 +8,7 @@ set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/"
 
 # Options for this project.
 option (USE_SYSTEM_GLFW "Use the GLFW library installed on the system" OFF)
+option (USE_SYSTEM_GLM "Use the GLM library installed on the system" ON)
 
 # Find the dependencies for this project.
 find_package (CUDA REQUIRED)
@@ -24,10 +25,16 @@ else (USE_SYSTEM_GLFW)
     set (GLFW_LIBRARIES "glfw ${GLFW_LIBRARIES}")
 endif (USE_SYSTEM_GLFW)
 
+if (USE_SYSTEM_GLM)
+    find_package (GLM REQUIRED)
+    include_directories (${GLM_INCLUDE_DIRS})
+else (USE_SYSTEM_GLM)
+    include_directories ("glm")
+endif (USE_SYSTEM_GLM)
+
 # Add required include paths.
 include_directories (${OPENGL_INCLUDE_DIR})
 include_directories (${GLEW_INCLUDE_DIRS})
-include_directories (${GLM_INCLUDE_DIRS})
 
 # Add the executables.
 cuda_add_executable (3dgol kernels.cu

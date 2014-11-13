@@ -38,6 +38,9 @@ If you're on Ubuntu 14.10 or newer and have `libglfw3-dev` already installed on
 your system, you can use the system installed GLFW library by running
 `cmake -DUSE_SYSTEM_GLFW=ON` in step 2 instead.
 
+By default, the system installed GLM library is used. To change this, set
+`USE_SYSTEM_GLM` to `OFF`.
+
 Running
 -------
 
