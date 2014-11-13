@@ -19,7 +19,9 @@ Additionally, [CMake](http://www.cmake.org/) is needed to build the project.
 If you're using Ubuntu, CMake and the libraries can be installed by issuing the
 following command:
 
-    sudo apt-get install cmake libglfw3-dev libglew-dev libglm-dev
+    sudo apt-get install cmake libglew-dev libglm-dev
+
+GLFW is included as a submodule within this repository.
 
 The nVidia CUDA SDK can be downloaded from nVidia's website.
 
@@ -31,6 +33,10 @@ Compilation
  3. `make -jN`, where N is the number of parallel jobs
 
 When done, the resulting binaries should be found as `3dgol` and `3dgol_gui`.
+
+If you're on Ubuntu 14.10 or newer and have `libglfw3-dev` already installed on
+your system, you can use the system installed GLFW library by running
+`cmake -DUSE_SYSTEM_GLFW=ON` in step 2 instead.
 
 Running
 -------

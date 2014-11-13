@@ -6,17 +6,27 @@ cmake_minimum_required (VERSION 2.8)
 project (3dgol)
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
+# Options for this project.
+option (USE_SYSTEM_GLFW "Use the GLFW library installed on the system" OFF)
+
 # Find the dependencies for this project.
 find_package (CUDA REQUIRED)
 find_package (OpenGL REQUIRED)
 find_package (GLEW REQUIRED)
-find_package (GLFW REQUIRED)
 find_package (GLM REQUIRED)
+
+if (USE_SYSTEM_GLFW)
+    find_package (GLFW REQUIRED)
+    include_directories (${GLFW_INCLUDE_DIRS})
+else (USE_SYSTEM_GLFW)
+    add_subdirectory ("glfw")
+    include_directories ("glfw/include")
+    set (GLFW_LIBRARIES "glfw ${GLFW_LIBRARIES}")
+endif (USE_SYSTEM_GLFW)
 
 # Add required include paths.
 include_directories (${OPENGL_INCLUDE_DIR})
 include_directories (${GLEW_INCLUDE_DIRS})
-include_directories (${GLFW_INCLUDE_DIRS})
 include_directories (${GLM_INCLUDE_DIRS})
 
 # Add the executables.
