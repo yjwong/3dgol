@@ -13,8 +13,20 @@ private:
     GameOfLife* gameOfLife;
     int sp;
 
+    static GLfloat LIGHT_AMBIENT[];
+    static GLfloat LIGHT_DIFFUSE[];
+    static GLfloat LIGHT_SPECULAR[];
+    static GLfloat LIGHT_POSITION[];
+
     static GLfloat CUBE_VERTICES[];
     static GLfloat CUBE_COLORS[];
+    static GLfloat CUBE_NORMALS[];
+    static GLfloat CUBE_AMBIENT[];
+    static GLfloat CUBE_DIFFUSE[];
+    static GLfloat CUBE_SPECULAR[];
+    static GLfloat CUBE_SHININESS[];
+    static GLfloat CUBE_EMISSION[];
+
     static GLfloat WIRE_CUBE_VERTICES[];
     static GLfloat WIRE_CUBE_COLORS[];
     static GLfloat AXES_VERTICES[];
@@ -28,6 +40,7 @@ private:
     GLuint vertexArrayObject;
     GLuint vboCubeVertices;
     GLuint vboCubeColors;
+    GLuint vboCubeNormals;
     GLuint vboWireCubeVertices;
     GLuint vboWireCubeColors;
     GLuint vboAxesVertices;
@@ -40,13 +53,12 @@ private:
     glm::vec3 sceneCameraLookAt;
     glm::vec3 sceneCameraUp;
 
+    bool isAxesVisible;
     bool isRotateInProgress;
     double rotateModeOriginalX;
     double rotateModeOriginalY;
     float rotationX;
     float rotationY;
-
-    bool isAxesVisible;
 
     double time; /* double time! */
     double timeNextGen;

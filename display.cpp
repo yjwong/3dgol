@@ -18,83 +18,172 @@
 
 namespace GameOfLife {
 
+GLfloat Display::LIGHT_AMBIENT[] = { 0.25f, 0.25f, 0.25f, 1.0f };
+GLfloat Display::LIGHT_DIFFUSE[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+GLfloat Display::LIGHT_SPECULAR[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+GLfloat Display::LIGHT_POSITION[] = { 100.0f, 50.0f, 100.0f };
+
 GLfloat Display::CUBE_VERTICES[] = {
+    // Left Face
     -1.0f, -1.0f, -1.0f,
     -1.0f, -1.0f,  1.0f,
-    -1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f, -1.0f,
-    -1.0f, -1.0f, -1.0f,
     -1.0f,  1.0f, -1.0f,
-     1.0f, -1.0f,  1.0f,
-    -1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-     1.0f,  1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-    -1.0f, -1.0f, -1.0f,
-    -1.0f, -1.0f, -1.0f,
-    -1.0f,  1.0f,  1.0f,
-    -1.0f,  1.0f, -1.0f,
-     1.0f, -1.0f,  1.0f,
-    -1.0f, -1.0f,  1.0f,
-    -1.0f, -1.0f, -1.0f,
+
     -1.0f,  1.0f,  1.0f,
     -1.0f, -1.0f,  1.0f,
+    -1.0f,  1.0f, -1.0f,
+
+    // Right Face
+     1.0f, -1.0f, -1.0f,
      1.0f, -1.0f,  1.0f,
+     1.0f,  1.0f, -1.0f,
+
      1.0f,  1.0f,  1.0f,
+     1.0f, -1.0f,  1.0f,
+     1.0f,  1.0f, -1.0f,
+
+    // Top Face
+    -1.0f,  1.0f, -1.0f,
+     1.0f,  1.0f, -1.0f,
+    -1.0f,  1.0f,  1.0f,
+
+     1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f, -1.0f,
+    -1.0f,  1.0f,  1.0f,
+
+    // Bottom Face
+    -1.0f, -1.0f, -1.0f,
+    -1.0f, -1.0f,  1.0f,
+     1.0f, -1.0f, -1.0f,
+
+     1.0f, -1.0f,  1.0f,
+    -1.0f, -1.0f,  1.0f,
+     1.0f, -1.0f, -1.0f,
+
+    // Back Face
+    -1.0f,  1.0f, -1.0f,
+     1.0f,  1.0f, -1.0f,
+    -1.0f, -1.0f, -1.0f,
+
      1.0f, -1.0f, -1.0f,
      1.0f,  1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
+    -1.0f, -1.0f, -1.0f,
+
+    // Front Face
+    -1.0f,  1.0f,  1.0f,
      1.0f,  1.0f,  1.0f,
+    -1.0f, -1.0f,  1.0f,
+
      1.0f, -1.0f,  1.0f,
      1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f,
-     1.0f,  1.0f,  1.0f,
-    -1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-    -1.0f,  1.0f,  1.0f,
-     1.0f, -1.0f,  1.0f
+    -1.0f, -1.0f,  1.0f
 };
 
 GLfloat Display::CUBE_COLORS[] = {
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 1.0f
+    // Left Face
+    0.956f, 0.262f, 0.212f,
+    0.956f, 0.262f, 0.212f,
+    0.956f, 0.262f, 0.212f,
+    0.956f, 0.262f, 0.212f,
+    0.956f, 0.262f, 0.212f,
+    0.956f, 0.262f, 0.212f,
+
+    // Right Face
+    0.0f, 0.585f, 0.531f,
+    0.0f, 0.585f, 0.531f,
+    0.0f, 0.585f, 0.531f,
+    0.0f, 0.585f, 0.531f,
+    0.0f, 0.585f, 0.531f,
+    0.0f, 0.585f, 0.531f,
+
+    // Top Face
+    0.612f, 0.153f, 0.690f,
+    0.612f, 0.153f, 0.690f,
+    0.612f, 0.153f, 0.690f,
+    0.612f, 0.153f, 0.690f,
+    0.612f, 0.153f, 0.690f,
+    0.612f, 0.153f, 0.690f,
+    
+    // Bottom Face
+    0.804f, 0.863f, 0.224f,
+    0.804f, 0.863f, 0.224f,
+    0.804f, 0.863f, 0.224f,
+    0.804f, 0.863f, 0.224f,
+    0.804f, 0.863f, 0.224f,
+    0.804f, 0.863f, 0.224f,
+
+    // Back Face
+    0.129f, 0.588f, 0.953f,
+    0.129f, 0.588f, 0.953f,
+    0.129f, 0.588f, 0.953f,
+    0.129f, 0.588f, 0.953f,
+    0.129f, 0.588f, 0.953f,
+    0.129f, 0.588f, 0.953f,
+
+    // Front Face
+    0.913f, 0.117f, 0.388f,
+    0.913f, 0.117f, 0.388f,
+    0.913f, 0.117f, 0.388f,
+    0.913f, 0.117f, 0.388f,
+    0.913f, 0.117f, 0.388f,
+    0.913f, 0.117f, 0.388f
 };
+
+GLfloat Display::CUBE_NORMALS[] = {
+    // Left Face
+    -1.0f, 0.0f, 0.0f,
+    -1.0f, 0.0f, 0.0f,
+    -1.0f, 0.0f, 0.0f,
+     1.0f, 0.0f, 0.0f,
+     1.0f, 0.0f, 0.0f,
+     1.0f, 0.0f, 0.0f,
+
+    // Right Face
+    -1.0f, 0.0f, 0.0f,
+    -1.0f, 0.0f, 0.0f,
+    -1.0f, 0.0f, 0.0f,
+     1.0f, 0.0f, 0.0f,
+     1.0f, 0.0f, 0.0f,
+     1.0f, 0.0f, 0.0f,
+
+    // Top Face
+    0.0f, -1.0f, 0.0f,
+    0.0f, -1.0f, 0.0f,
+    0.0f, -1.0f, 0.0f,
+    0.0f,  1.0f, 0.0f,
+    0.0f,  1.0f, 0.0f,
+    0.0f,  1.0f, 0.0f,
+
+    // Bottom Face
+    0.0f,  1.0f, 0.0f,
+    0.0f,  1.0f, 0.0f,
+    0.0f,  1.0f, 0.0f,
+    0.0f, -1.0f, 0.0f,
+    0.0f, -1.0f, 0.0f,
+    0.0f, -1.0f, 0.0f,
+
+    // Back Face
+    0.0f, 0.0f, -1.0f,
+    0.0f, 0.0f, -1.0f,
+    0.0f, 0.0f, -1.0f,
+    0.0f, 0.0f,  1.0f,
+    0.0f, 0.0f,  1.0f,
+    0.0f, 0.0f,  1.0f,
+
+    // Front Face
+    0.0f, 0.0f, -1.0f,
+    0.0f, 0.0f, -1.0f,
+    0.0f, 0.0f, -1.0f,
+    0.0f, 0.0f,  1.0f,
+    0.0f, 0.0f,  1.0f,
+    0.0f, 0.0f,  1.0f
+};
+
+GLfloat Display::CUBE_AMBIENT[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+GLfloat Display::CUBE_DIFFUSE[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+GLfloat Display::CUBE_SPECULAR[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+GLfloat Display::CUBE_SHININESS[] = { 32.0f };
+GLfloat Display::CUBE_EMISSION[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 
 GLfloat Display::WIRE_CUBE_VERTICES[] = {
     // Side 1
@@ -175,7 +264,9 @@ int Display::WINDOW_HEIGHT = 600;
 
 Display::Display(GameOfLife* gameOfLife, int sp) :
     gameOfLife(gameOfLife), sp(sp),
-    isRotateInProgress(false), isAxesVisible(true) {
+    isAxesVisible(true), isRotateInProgress(false),
+    rotateModeOriginalX(0.0), rotateModeOriginalY(0.0),
+    rotationX(0.0f), rotationY(0.0f) {
     // Print some instructions.
     std::cout << std::endl;
     std::cout << "Keyboard controls: " << std::endl;
@@ -402,31 +493,31 @@ void Display::initializeGraphics() {
     glBindBuffer(GL_ARRAY_BUFFER, this->vboCubeVertices);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Display::CUBE_VERTICES),
             Display::CUBE_VERTICES, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
     
     glGenBuffers(1, &this->vboCubeColors);
     glBindBuffer(GL_ARRAY_BUFFER, this->vboCubeColors);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Display::CUBE_COLORS),
             Display::CUBE_COLORS, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glGenBuffers(1, &this->vboCubeNormals);
+    glBindBuffer(GL_ARRAY_BUFFER, this->vboCubeNormals);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Display::CUBE_NORMALS),
+            Display::CUBE_NORMALS, GL_STATIC_DRAW);
     
     glGenBuffers(1, &this->vboWireCubeVertices);
     glBindBuffer(GL_ARRAY_BUFFER, this->vboWireCubeVertices);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Display::WIRE_CUBE_VERTICES),
             Display::WIRE_CUBE_VERTICES, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
     
     glGenBuffers(1, &this->vboWireCubeColors);
     glBindBuffer(GL_ARRAY_BUFFER, this->vboWireCubeColors);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Display::WIRE_CUBE_COLORS),
             Display::WIRE_CUBE_COLORS, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glGenBuffers(1, &this->vboAxesVertices);
     glBindBuffer(GL_ARRAY_BUFFER, this->vboAxesVertices);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Display::AXES_VERTICES),
             Display::AXES_VERTICES, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glGenBuffers(1, &this->vboAxesColors);
     glBindBuffer(GL_ARRAY_BUFFER, this->vboAxesColors);
@@ -434,9 +525,11 @@ void Display::initializeGraphics() {
             Display::AXES_COLORS, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    // Set up initial view matrix. 
-    this->sceneModel = glm::translate(glm::mat4(1.0f),
-                glm::vec3(0.0, 0.0, 0.0));
+    // Set up initial view matrix.
+    this->rotationX = glm::pi<float>() / 5;
+    this->rotationY = glm::pi<float>() / 5;
+    this->sceneModel = glm::rotate(this->rotationX, glm::vec3(1.0, 0.0, 0.0));
+    this->sceneModel *= glm::rotate(this->rotationY, glm::vec3(0.0, 1.0, 0.0));
     this->sceneCameraCoord = glm::vec3(0.0, 0.0, 5.0);
     this->sceneCameraLookAt = glm::vec3(0.0, 0.0, 0.0);
     this->sceneCameraUp = glm::vec3(0.0, 1.0, 0.0);
@@ -580,9 +673,34 @@ void Display::drawCube() {
     GLint uniformView = glGetUniformLocation(this->cubeProgram, "view");
     GLint uniformProjection = glGetUniformLocation(this->cubeProgram,
             "projection");
+    GLint uniformNormal = glGetUniformLocation(this->cubeProgram,
+            "normal_matrix");
     GLint uniformCount = glGetUniformLocation(this->cubeProgram, "count");
     GLint uniformFieldPosition = glGetUniformLocation(this->cubeProgram,
             "field_position");
+    GLint uniformAmbient = glGetUniformLocation(this->cubeProgram,
+            "mat_ambient");
+    GLint uniformDiffuse = glGetUniformLocation(this->cubeProgram,
+            "mat_diffuse");
+    GLint uniformSpecular = glGetUniformLocation(this->cubeProgram,
+            "mat_specular");
+    GLint uniformShininess = glGetUniformLocation(this->cubeProgram,
+            "mat_shininess");
+    GLint uniformEmission = glGetUniformLocation(this->cubeProgram,
+            "mat_emission");
+    GLint uniformLightAmbient = glGetUniformLocation(this->cubeProgram,
+            "light_ambient");
+    GLint uniformLightDiffuse = glGetUniformLocation(this->cubeProgram,
+            "light_diffuse");
+    GLint uniformLightSpecular = glGetUniformLocation(this->cubeProgram,
+            "light_specular");
+    GLint uniformLightPosition = glGetUniformLocation(this->cubeProgram,
+            "light_position");
+
+    // Pre-calculate the normal matrix.
+    glm::mat4 normalMatrix = glm::transpose(glm::inverse(
+                this->sceneModel * this->sceneView
+    ));
    
     // Generate an array with locations of cubes.
     std::vector<glm::vec3> fieldPositions;
@@ -601,8 +719,21 @@ void Display::drawCube() {
                         glm::value_ptr(this->sceneView));
                 glUniformMatrix4fv(uniformProjection, 1, GL_FALSE,
                         glm::value_ptr(this->sceneProjection));
+                glUniformMatrix4fv(uniformNormal, 1, GL_FALSE,
+                        glm::value_ptr(normalMatrix));
                 glUniform1i(uniformCount, this->gameOfLife->getFieldSize());
                 glUniform3f(uniformFieldPosition, i, j, k);
+
+                glUniform4fv(uniformAmbient, 1, Display::CUBE_AMBIENT);
+                glUniform4fv(uniformDiffuse, 1, Display::CUBE_DIFFUSE);
+                glUniform4fv(uniformSpecular, 1, Display::CUBE_SPECULAR);
+                glUniform1f(uniformShininess, Display::CUBE_SHININESS[0]);
+                glUniform4fv(uniformEmission, 1, Display::CUBE_EMISSION);
+
+                glUniform4fv(uniformLightAmbient, 1, Display::LIGHT_AMBIENT);
+                glUniform4fv(uniformLightDiffuse, 1, Display::LIGHT_DIFFUSE);
+                glUniform4fv(uniformLightSpecular, 1, Display::LIGHT_SPECULAR);
+                glUniform3fv(uniformLightPosition, 1, Display::LIGHT_POSITION);
              
                 // Prepare the vertex buffer.
                 glEnableVertexAttribArray(0);
@@ -613,7 +744,12 @@ void Display::drawCube() {
                 glBindBuffer(GL_ARRAY_BUFFER, this->vboCubeColors);
                 glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-                // Let's use OpenGL instancing to make this faster.
+                glEnableVertexAttribArray(2);
+                glBindBuffer(GL_ARRAY_BUFFER, this->vboCubeNormals);
+                glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+                // Draw!
+                glBindBuffer(GL_ARRAY_BUFFER, this->vboCubeVertices);
                 glDrawArrays(GL_TRIANGLES, 0,
                         sizeof(CUBE_VERTICES) / sizeof(GLfloat) / 3);
 
