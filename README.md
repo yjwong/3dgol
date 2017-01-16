@@ -4,7 +4,7 @@
 This project is part of CS3210 Parallel Computing, National University of
 Singapore. It implements Conway's Game of Life using CUDA kernels.
 
-![Screenshot](http://yjwong.name/3dgol-screenshot.png "Screenshot")
+![Screenshot](https://portfolio.yjwong.name/assets/projects/code/3dgol/cover.png "Screenshot")
 
 Pre-Requisites
 --------------
